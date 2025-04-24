@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Devotional Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 2em;
+      max-width: 600px;
+      margin: auto;
+    }
+    h2 { color: #333; }
+    .chatbox { background: #fff; padding: 1em; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .button { margin: 0.5em 0; padding: 10px 20px; background: #0055a5; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    .button:hover { background: #003f7d; }
+    .result { margin-top: 1em; padding: 1em; background: #e3f2fd; border-left: 4px solid #1976d2; }
+  </style>
+</head>
+<body>
+  <div class="chatbox">
+    <h2>Unravel Me – Devotional Guide</h2>
+    <p>What are you struggling with today?</p>
+    <button class="button" onclick="showResult('anxiety')">Anxiety</button>
+    <button class="button" onclick="showResult('doubt')">Doubt</button>
+    <button class="button" onclick="showResult('temptation')">Temptation</button>
+    <button class="button" onclick="showResult('loneliness')">Loneliness</button>
+
+    <div id="result" class="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    const messages = {
+      anxiety: {
+        verse: "Philippians 4:6-7",
+        text: `"Be anxious for nothing; but in everything by prayer and supplication with thanksgiving let your requests be made known unto God."`,
+        prayer: "Lord, calm my anxious heart and fill me with your peace today. Amen."
+      },
+      doubt: {
+        verse: "James 1:5-6",
+        text: `"If any of you lack wisdom, let him ask of God... But let him ask in faith, nothing doubting."`,
+        prayer: "Jesus, help my unbelief and strengthen my faith. Amen."
+      },
+      temptation: {
+        verse: "1 Corinthians 10:13",
+        text: `"God is faithful, who will not suffer you to be tempted above that ye are able... but will make a way to escape."`,
+        prayer: "God, show me the way out and help me choose righteousness. Amen."
+      },
+      loneliness: {
+        verse: "Deuteronomy 31:6",
+        text: `"Be strong and of a good courage... for the Lord thy God is with thee."`,
+        prayer: "Lord, help me feel your presence and never forget I am not alone. Amen."
+      }
+    };
+
+    function showResult(topic) {
+      const res = messages[topic];
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = `
+        <strong>Verse:</strong> ${res.verse}<br>
+        <blockquote>${res.text}</blockquote>
+        <strong>Prayer:</strong> <em>${res.prayer}</em>
+      `;
+      resultDiv.style.display = "block";
+    }
+  </script>
+</body>
+</html>
