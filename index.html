@@ -3,19 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <title>Devotional Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
       font-family: Arial, sans-serif;
       background: #f4f4f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .chatbox {
+      background: #ffffff;
       padding: 2em;
-      max-width: 600px;
-      margin: auto;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 90%;
+      width: 400px;
     }
     h2 { color: #333; }
-    .chatbox { background: #fff; padding: 1em; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    .button { margin: 0.5em 0; padding: 10px 20px; background: #0055a5; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    .button {
+      margin: 0.5em 0;
+      padding: 10px 20px;
+      background: #0055a5;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
     .button:hover { background: #003f7d; }
-    .result { margin-top: 1em; padding: 1em; background: #e3f2fd; border-left: 4px solid #1976d2; }
+    .result {
+      margin-top: 1.5em;
+      padding: 1em;
+      background: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      text-align: left;
+      border-radius: 8px;
+    }
+    .share-button {
+      margin-top: 10px;
+      padding: 8px 15px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .share-button:hover {
+      background: #388e3c;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 100%;
+      margin-top: 1em;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
   </style>
 </head>
 <body>
@@ -27,7 +74,10 @@
     <button class="button" onclick="showResult('temptation')">Temptation</button>
     <button class="button" onclick="showResult('loneliness')">Loneliness</button>
 
+    <input type="text" id="customInput" placeholder="Something else? Type it here..." onkeydown="if(event.key==='Enter') showCustom()">
+
     <div id="result" class="result" style="display:none;"></div>
+    <button class="share-button" style="display:none;" id="shareBtn" onclick="shareDevotion()">📤 Share This</button>
   </div>
 
   <script>
@@ -57,12 +107,39 @@
     function showResult(topic) {
       const res = messages[topic];
       const resultDiv = document.getElementById("result");
+      const shareBtn = document.getElementById("shareBtn");
+
       resultDiv.innerHTML = `
         <strong>Verse:</strong> ${res.verse}<br>
         <blockquote>${res.text}</blockquote>
         <strong>Prayer:</strong> <em>${res.prayer}</em>
       `;
       resultDiv.style.display = "block";
+      shareBtn.style.display = "inline-block";
+    }
+
+    function showCustom() {
+      const input = document.getElementById("customInput").value.trim();
+      const resultDiv = document.getElementById("result");
+      const shareBtn = document.getElementById("shareBtn");
+
+      if (input === "") return;
+
+      resultDiv.innerHTML = `
+        <strong>You entered:</strong> "${input}"<br><br>
+        <strong>Verse:</strong> Psalm 34:17<br>
+        <blockquote>"The righteous cry, and Jehovah heareth, And delivereth them out of all their troubles."</blockquote>
+        <strong>Prayer:</strong> <em>Lord, meet me right where I am. You know my heart better than I do. Draw me close. Amen.</em>
+      `;
+      resultDiv.style.display = "block";
+      shareBtn.style.display = "inline-block";
+    }
+
+    function shareDevotion() {
+      const text = document.getElementById("result").innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Devotional copied to clipboard! You can paste it anywhere.");
+      });
     }
   </script>
 </body>
